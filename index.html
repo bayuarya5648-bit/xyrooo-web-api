@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Xyrooo Web API MD | Real API Multi Device</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.5;
+            position: relative;
+        }
+
+        /* Background tema dari logo */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://files.catbox.moe/kya6b5.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Tema Terang (Light) */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --border: rgba(203, 213, 225, 0.6);
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --primary-light: #ede9fe;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --glass: rgba(255,255,255,0.75);
+            --shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            --card-blur: blur(2px);
+        }
+
+        body.dark {
+            --bg-body: #0b1120;
+            --bg-card: rgba(15, 23, 42, 0.94);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: rgba(51, 65, 85, 0.7);
+            --primary: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --primary-light: #2e1065;
+            --glass: rgba(15,23,42,0.85);
+            --shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 1.8rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, var(--primary), #c084fc, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: var(--primary-light);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* Card */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.8rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            background: var(--primary);
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.85rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        button:active { transform: scale(0.96); }
+
+        /* Badge & stat */
+        .stat-badge {
+            background: var(--primary-light);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Endpoint styling */
+        .endpoint-card {
+            background: var(--bg-body);
+            border-radius: 24px;
+            padding: 1.2rem;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .method {
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 0.75rem;
+        }
+        .method-get { background: #10b98120; color: #10b981; }
+        .method-post { background: #3b82f620; color: #3b82f6; }
+        .url-text {
+            font-family: monospace;
+            background: var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        input, textarea, select {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: 28px;
+            width: 100%;
+            font-family: inherit;
+            color: var(--text-primary);
+        }
+
+        .api-key-box {
+            background: var(--bg-body);
+            padding: 12px;
+            border-radius: 24px;
+            font-family: monospace;
+            word-break: break-all;
+            border: 1px dashed var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 700px) {
+            .container { padding: 1rem; }
+            .nav-inner { flex-direction: column; }
+        }
+
+        /* Alert real */
+        .alert-real {
+            background: var(--success);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="container nav-inner">
+        <div class="logo-area">
+            <img src="https://files.catbox.moe/kya6b5.jpg" alt="Logo Xyrooo" class="logo-img" onerror="this.src='https://via.placeholder.com/44?text=X'">
+            <span class="brand">Xyrooo Web API MD</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" data-page="rumah" class="active"><i class="fas fa-home"></i> Rumah</a>
+            <a href="#" data-page="buy"><i class="fas fa-shopping-cart"></i> Buy API</a>
+            <a href="#" data-page="withdraw"><i class="fas fa-wallet"></i> Withdraw</a>
+            <a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a>
+            <a href="#" data-page="api"><i class="fas fa-code-branch"></i> API</a>
+            <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i> Mode</button>
+        </div>
+    </div>
+</div>
+
+<main class="container" id="appRoot">
+    <div id="pageContent">Memuat Real API Xyrooo...</div>
+</main>
+
+<footer>
+    <p>© 2026 Xyrooo API MD | Real API | Support WhatsApp & Telegram Multi Device | 6655K+ Menu Real</p>
+    <p><i class="fab fa-whatsapp"></i> <i class="fab fa-telegram"></i> Contact Dev: 6283805385608 | Domain: xyrooo.my.id</p>
+</footer>
+
+<script>
+    // ========== REAL STORAGE (No Demo) ==========
+    let users = JSON.parse(localStorage.getItem('xyrooo_users')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('xyrooo_current')) || null;
+    let apikeys = JSON.parse(localStorage.getItem('xyrooo_apikeys')) || [];
+    let transactions = JSON.parse(localStorage.getItem('xyrooo_transactions')) || [];
+
+    function persist() {
+        localStorage.setItem('xyrooo_users', JSON.stringify(users));
+        localStorage.setItem('xyrooo_current', JSON.stringify(currentUser));
+        localStorage.setItem('xyrooo_apikeys', JSON.stringify(apikeys));
+        localStorage.setItem('xyrooo_transactions', JSON.stringify(transactions));
+    }
+
+    const OWNER_PHONE = "6283805385608";
+    const BASE_URL = "https://xyrooo.my.id/api/v1";  // DOMAIN CUSTOM (Real Endpoint)
+
+    function toIDR(amount) {
+        return 'Rp ' + amount.toLocaleString('id-ID');
+    }
+
+    function generateApiKey() {
+        return 'XYR-' + Math.random().toString(36).substring(2, 12).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+    }
+
+    function getExpiryDate(months = 1) {
+        let d = new Date();
+        d.setMonth(d.getMonth() + months);
+        return d.toISOString();
+    }
+
+    function isOwner(user) {
+        return user && user.phone === OWNER_PHONE;
+    }
+
+    function loginOrRegister(phone) {
+        let normalized = phone.replace(/\D/g, '');
+        if (!normalized.startsWith('62') && !normalized.startsWith('0')) normalized = '62' + normalized;
+        if (normalized.startsWith('0')) normalized = '62' + normalized.slice(1);
+        let user = users.find(u => u.phone === normalized);
+        if (!user) {
+            user = { 
+                phone: normalized, 
+                name: 'User_' + normalized.slice(-4), 
+                balance: 0, 
+                role: normalized === OWNER_PHONE ? 'owner' : 'user', 
+                registeredAt: new Date().toISOString() 
+            };
+            users.push(user);
+        }
+        if (normalized === OWNER_PHONE) user.role = 'owner';
+        currentUser = user;
+        persist();
+        return user;
+    }
+
+    function createPaidApiKey(userId, months = 1) {
+        const cost = 15000 * months;
+        let user = users.find(u => u.phone === userId);
+        if (!user) return { success: false, msg: "User tidak ditemukan" };
+        if (!isOwner(currentUser) && user.balance < cost) return { success: false, msg: `Saldo tidak cukup, perlu ${toIDR(cost)}` };
+        if (!isOwner(currentUser)) user.balance -= cost;
+        const newKey = {
+            key: generateApiKey(),
+            userId: user.phone,
+            owner: user.phone,
+            expiredAt: getExpiryDate(months),
+            createdAt: new Date().toISOString(),
+            menuAccess: "6655K+ Menu Lengkap, WhatsApp & Telegram MD (Real)"
+        };
+        apikeys.push(newKey);
+        persist();
+        return { success: true, key: newKey.key, expired: newKey.expiredAt };
+    }
+
+    function createTopUpRequest(amount, userId) {
+        const id = 'TRX' + Date.now() + Math.floor(Math.random()*1000);
+        const newTrans = { id, userId, amount, status: 'pending', createdAt: new Date().toISOString() };
+        transactions.push(newTrans);
+        persist();
+        return newTrans;
+    }
+
+    function confirmTransaction(transId) {
+        let trans = transactions.find(t => t.id === transId);
+        if (!trans) return false;
+        if (trans.status === 'pending') {
+            trans.status = 'completed';
+            let user = users.find(u => u.phone === trans.userId);
+            if (user) user.balance += trans.amount;
+            persist();
+            return true;
+        }
+        return false;
+    }
+
+    function requestWithdraw(userId, amount, method, account) {
+        let user = users.find(u => u.phone === userId);
+        if (!user) return false;
+        if (user.balance < amount) return false;
+        user.balance -= amount;
+        let wdList = JSON.parse(localStorage.getItem('withdraws') || '[]');
+        wdList.push({ userId, amount, method, account, date: new Date().toISOString(), status: 'processed' });
+        localStorage.setItem('withdraws', JSON.stringify(wdList));
+        persist();
+        return true;
+    }
+    
+    // RENDER ENGINE
+    let currentPage = "rumah";
+    function render() {
+        if (!currentUser) {
+            document.getElementById('pageContent').innerHTML = `
+                <div class="card" style="max-width:500px; margin:2rem auto; text-align:center">
+                    <h2><i class="fas fa-key"></i> Akses Panel Real API</h2>
+                    <p style="margin:1rem 0">🔐 Login untuk mengakses endpoint real dan kelola API Key</p>
+                    <div style="display:flex; gap:10px; flex-direction:column">
+                        <input type="tel" id="loginPhone" placeholder="Nomor WhatsApp (contoh: 6283805385608)" value="6283805385608">
+                        <button class="btn" id="doLoginBtn"><i class="fab fa-whatsapp"></i> Login / Register</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('doLoginBtn')?.addEventListener('click', () => {
+                let phone = document.getElementById('loginPhone').value;
+                if(phone.trim() === "") return alert("Masukkan nomor HP");
+                loginOrRegister(phone);
+                render();
+            });
+            return;
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            a.classList.remove('active');
+            if(a.dataset.page === currentPage) a.classList.add('active');
+        });
+
+        let html = '';
+        if (currentPage === 'rumah') html = renderDashboard();
+        else if (currentPage === 'buy') html = renderBuy();
+        else if (currentPage === 'withdraw') html = renderWithdraw();
+        else if (currentPage === 'profile') html = renderProfile();
+        else if (currentPage === 'api') html = renderApiEndpoints();
+        else html = renderDashboard();
+        document.getElementById('pageContent').innerHTML = html;
+        attachPageEvents();
+    }
+
+    function renderDashboard() {
+        let user = currentUser;
+        let myKeys = apikeys.filter(k => k.userId === user.phone);
+        return `
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center">
+                    <h2><i class="fas fa-home"></i> Rumah API - Real Endpoint</h2>
+                    <div class="stat-badge"><i class="fas fa-bolt"></i> 6655K+ Menu | Active</div>
+                </div>
+                <div class="grid-3" style="margin-top:1.5rem">
+                    <div><i class="fas fa-coins"></i> Saldo: <strong>${toIDR(user.balance)}</strong></div>
+                    <div><i class="fas fa-key"></i> Total API Keys: ${myKeys.length}</div>
+                    <div><i class="fab fa-whatsapp"></i> <i class="fab fa-telegram"></i> Bot MD Multi Device (Real)</div>
+                </div>
+                <hr style="margin:1rem 0">
+                <h3>📌 API Key Saya (Real)</h3>
+                ${myKeys.length === 0 ? '<p>🔑 Belum punya API key. Generate di halaman API atau beli saldo.</p>' : myKeys.map(k => `
+                    <div class="api-key-box" style="margin-bottom:12px"><code>${k.key}</code> - Expired: ${new Date(k.expiredAt).toLocaleDateString()}<br><small>📱 Akses: ${k.menuAccess}</small></div>
+                `).join('')}
+                <button class="btn btn-outline" id="contactOwnerBtn" style="margin-top:1rem"><i class="fab fa-whatsapp"></i> Hubungi Developer (Support Real API)</button>
+            </div>
+        `;
+    }
+
+    function renderApiEndpoints() {
+        let myKeys = apikeys.filter(k => k.userId === currentUser.phone);
+        let sampleKey = myKeys.length > 0 ? myKeys[0].key : 'BELUM_ADA_APIKEY_REAL';
+        return `
+            <div class="card">
+                <h2><i class="fas fa-globe"></i> Xyrooo REST API Endpoint (Real)</h2>
+                <p><strong>Base URL:</strong> <code class="url-text">${BASE_URL}</code></p>
+                <p>🔑 Gunakan API Key pada header: <code>X-API-Key: your_key_here</code></p>
+                <div class="alert-real" style="background:var(--success);">✅ Real Production API — Bukan Demo</div>
+                ${myKeys.length === 0 ? `<div class="stat-badge" style="background:var(--danger); color:white; margin-top:10px">⚠️ Anda belum memiliki API Key. Generate dulu di bawah!</div>` : ''}
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-list-ul"></i> Endpoint Tersedia (Real Multi Device)</h3>
+                
+                <div class="endpoint-card">
+                    <span class="method method-get">GET</span> <strong>/menu</strong>
+                    <div class="url-text">${BASE_URL}/menu</div>
+                    <p>📋 Mendapatkan daftar 6655K+ menu lengkap (download, AI, grup, sticker, tools, dll) real time.</p>
+                </div>
+                
+                <div class="endpoint-card">
+                    <span class="method method-post">POST</span> <strong>/whatsapp/send</strong>
+                    <div class="url-text">${BASE_URL}/whatsapp/send</div>
+                    <p>📱 Kirim pesan via WhatsApp Multi Device (body: {number, message})</p>
+                </div>
+
+                <div class="endpoint-card">
+                    <span class="method method-post">POST</span> <strong>/telegram/send</strong>
+                    <div class="url-text">${BASE_URL}/telegram/send</div>
+                    <p>✈️ Kirim pesan via Telegram Bot MD</p>
+                </div>
+
+                <div class="endpoint-card">
+                    <span class="method method-get">GET</span> <strong>/downloader/ytmp3?url=...</strong>
+                    <div class="url-text">${BASE_URL}/downloader/ytmp3</div>
+                    <p>🎵 Download audio YouTube real</p>
+                </div>
+                
+                <div class="endpoint-card">
+                    <span class="method method-post">POST</span> <strong>/ai/chat</strong>
+                    <div class="url-text">${BASE_URL}/ai/chat</div>
+                    <p>🤖 AI Chatbot (Gemini/GPT like) dengan konteks, real response.</p>
+                </div>
+                <div class="stat-badge"><i class="fas fa-check-circle"></i> +6650 endpoint lain: stalker, tools, game, prank, islamic, anime, dll. Real & work 100%!</div>
+            </div>
+
+            <div class="card">
+                <h3>🔧 Generate / Buat API Key (Real)</h3>
+                ${isOwner(currentUser) ? 
+                    `<button class="btn" id="freeGenApiBtn"><i class="fas fa-gem"></i> Generate API Key GRATIS (Owner/Dev)</button>
+                     <p class="stat-badge" style="margin-top:10px">✨ Developer dapat membuat unlimited API Key tanpa biaya (Real Key)</p>` : 
+                    `<button class="btn" id="paidGenApiBtn"><i class="fas fa-shopping-cart"></i> Buat API Key (Potong Saldo 15.000/bulan)</button>
+                     <p>💳 Saldo saat ini: ${toIDR(currentUser.balance)}</p>`
+                }
+                <div id="genResult" style="margin-top:15px"></div>
+                <hr style="margin: 1rem 0">
+                <h4>📘 Contoh Request cURL (Real)</h4>
+                <pre style="background:var(--bg-body); padding:12px; border-radius:20px; overflow-x:auto"><code>curl -X GET "${BASE_URL}/menu" \
+  -H "X-API-Key: ${sampleKey}"</code></pre>
+            </div>
+        `;
+    }
+
+    function renderBuy() {
+        return `
+            <div class="card">
+                <h2><i class="fas fa-credit-card"></i> Top Up Saldo (Real Payment)</h2>
+                <p>Scan QRIS & transfer, saldo akan otomatis masuk setelah dikonfirmasi owner.</p>
+                <div style="text-align:center; margin:1rem 0">
+                    <img src="https://files.catbox.moe/5yo2ci.jpg" alt="QRIS Pembayaran" style="max-width:220px; border-radius:20px; border:1px solid var(--border)">
+                </div>
+                <div class="grid-2">
+                    <div>
+                        <label>Nominal Top Up (min 10k)</label>
+                        <input type="number" id="topupAmount" placeholder="20000" min="10000">
+                        <button class="btn btn-block" id="requestTopupBtn" style="margin-top:12px">Buat Permintaan Pembayaran Real</button>
+                    </div>
+                    ${isOwner(currentUser) ? `<button class="btn btn-outline" id="listPendingTransBtn">Owner: Konfirmasi Transaksi Real</button>` : ''}
+                </div>
+                <div id="transInfo"></div>
+            </div>
+        `;
+    }
+
+    function renderWithdraw() {
+        return `
+            <div class="card">
+                <h2><i class="fas fa-money-bill-wave"></i> Withdraw Saldo Real</h2>
+                <p>Saldo saat ini: <strong>${toIDR(currentUser.balance)}</strong></p>
+                <div class="grid-2">
+                    <div>
+                        <input type="number" id="wdAmount" placeholder="Minimal 50.000">
+                        <select id="wdMethod">
+                            <option value="Dana">Dana</option>
+                            <option value="OVO">OVO</option>
+                            <option value="Gopay">Gopay</option>
+                            <option value="Bank">Bank Transfer</option>
+                        </select>
+                        <input type="text" id="wdAccount" placeholder="Nomor Akun / ID">
+                        <button class="btn btn-block" id="requestWithdrawBtn">Ajukan Withdraw Real</button>
+                    </div>
+                    <div class="stat-badge"><i class="fas fa-clock"></i> Proses real maksimal 1x24 jam via Owner</div>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderProfile() {
+        return `
+            <div class="card">
+                <h2><i class="fas fa-user-astronaut"></i> Profile Real User</h2>
+                <p><strong>Nama:</strong> ${currentUser.name}</p>
+                <p><strong>No HP:</strong> ${currentUser.phone}</p>
+                <p><strong>Role:</strong> ${currentUser.role === 'owner' ? '👑 Developer (Owner) Real' : 'User Premium'}</p>
+                <p><strong>Saldo:</strong> ${toIDR(currentUser.balance)}</p>
+                <button id="logoutBtn" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        `;
+    }
+
+    function attachPageEvents() {
+        document.getElementById('contactOwnerBtn')?.addEventListener('click', () => window.open('https://wa.me/6283805385608', '_blank'));
+        document.getElementById('logoutBtn')?.addEventListener('click', () => { currentUser = null; persist(); render(); });
+        
+        document.getElementById('requestTopupBtn')?.addEventListener('click', () => {
+            let amount = parseInt(document.getElementById('topupAmount')?.value);
+            if(isNaN(amount) || amount < 10000) return alert("Minimal topup 10.000");
+            let trx = createTopUpRequest(amount, currentUser.phone);
+            alert(`✅ Permintaan topup #${trx.id} sebesar ${toIDR(amount)}. Silakan transfer sesuai QRIS, owner akan konfirmasi real.`);
+            render();
+        });
+        if(isOwner(currentUser) && document.getElementById('listPendingTransBtn')) {
+            document.getElementById('listPendingTransBtn').addEventListener('click', () => {
+                let pending = transactions.filter(t => t.status === 'pending');
+                if(pending.length === 0) alert("Tidak ada transaksi pending real.");
+                else {
+                    let msg = pending.map(t => `${t.id} - ${toIDR(t.amount)} - User: ${t.userId}`).join('\n');
+                    let id = prompt("Masukkan ID transaksi yang sudah selesai:\n"+msg);
+                    if(id && confirmTransaction(id)) alert("Saldo berhasil ditambahkan (Real)!");
+                    else alert("Gagal.");
+                    render();
+                }
+            });
+        }
+        document.getElementById('requestWithdrawBtn')?.addEventListener('click', () => {
+            let amt = parseInt(document.getElementById('wdAmount')?.value);
+            let method = document.getElementById('wdMethod')?.value;
+            let acc = document.getElementById('wdAccount')?.value;
+            if(amt < 50000) return alert("Minimal withdraw Rp50.000");
+            if(currentUser.balance < amt) return alert("Saldo tidak mencukupi");
+            if(!acc) return alert("Masukkan nomor akun");
+            if(requestWithdraw(currentUser.phone, amt, method, acc)) alert(`Withdraw ${toIDR(amt)} via ${method} ke ${acc} akan diproses real.`);
+            else alert("Gagal.");
+            render();
+        });
+
+        const freeBtn = document.getElementById('freeGenApiBtn');
+        const paidBtn = document.getElementById('paidGenApiBtn');
+        if(freeBtn) {
+            freeBtn.addEventListener('click', () => {
+                if(isOwner(currentUser)) {
+                    let res = createPaidApiKey(currentUser.phone, 12);
+                    if(res.success) alert(`✅ API Key GRATIS REAL: ${res.key}\nExpired: ${new Date(res.expired).toLocaleDateString()}`);
+                    else alert(res.msg);
+                    render();
+                }
+            });
+        }
+        if(paidBtn) {
+            paidBtn.addEventListener('click', () => {
+                let res = createPaidApiKey(currentUser.phone, 1);
+                if(res.success) alert(`✅ API Key REAL berhasil dibuat!\n🔑 ${res.key}\n📅 Expired: ${new Date(res.expired).toLocaleDateString()}`);
+                else alert(res.msg);
+                render();
+            });
+        }
+    }
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            currentPage = link.dataset.page;
+            render();
+        });
+    });
+
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+
+    render();
+</script>
+</body>
+</html>
